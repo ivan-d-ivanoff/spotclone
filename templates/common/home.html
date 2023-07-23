@@ -1,0 +1,40 @@
+{% extends 'base/base.html' %} 
+
+{% block content %}
+
+{% comment %} TODO: Make the playlist and song other parts and be 50% width
+                    on the left will be the pre made playlists
+{% endcomment %}
+<main class="bg-dark m-2 p-5 bg-white text-light" style="border-radius:12px">
+    <div class="container-fluid m-2 bg-dark">
+        <h1>Home Page</h1>
+        <h4>Welcome {{ user }}</h4>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <div class="w-50 container-fluid m-2 bg-dark">
+        <h2>Your Playlists</h2>
+
+    {% for playlist in playlists %}
+    <p>{{ playlist }}</p>
+    {% endfor %}
+        <a href="{% url 'playlist_list' %}">Show all</a>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <div class="w-50 container-fluid m-2 bg-dark">
+        <h2>Your songs</h2>
+
+    {% for song in songs %}
+        <p>{{ song }}</p>
+    {% endfor %}
+    <a href="{% url 'custom_songs_list' %}">Show all</a>
+    </div>
+</main>
+{% endblock %}

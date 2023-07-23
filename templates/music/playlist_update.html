@@ -1,0 +1,10 @@
+﻿{% extends 'base/base.html' %} 
+
+{% block content %}
+<form action="{% url 'playlist_update' playlist.pk %}" method="POST">
+  {% csrf_token %} 
+  {{ form.as_p }}
+  <button>Update playlist</button>
+</form>
+
+{% endblock content %}

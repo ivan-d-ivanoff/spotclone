@@ -1,0 +1,18 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<form action="{% url 'user_login' %}" method='POST'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div>
+        <button>Login</button>
+        or
+        <a href="{% url 'user_register' %}">Register</a>
+
+        <a href="{% url 'reset_password' %}">Forgotten password</a>
+    </div>
+</form>
+
+{% endblock %}

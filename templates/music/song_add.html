@@ -1,0 +1,10 @@
+﻿{% extends 'base/base.html' %} 
+
+{% block content %}
+<form action="{% url 'song_add' %}" method="POST">
+  {% csrf_token %} 
+  {{ form.as_p }}
+  <button>Add song</button>
+</form>
+
+{% endblock content %}

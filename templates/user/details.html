@@ -1,0 +1,63 @@
+﻿{% extends 'base/base.html' %} {% load static %} {% block content %}
+<style>
+  img {
+    max-width: 100px;
+  }
+  li {
+    list-style-type: none;
+  }
+  .hidden-input {
+    display: none;
+  }
+  .image-label img {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+  .image-label:hover img {
+    opacity: 0.5;
+    cursor: pointer;
+  }
+</style>
+
+<h1>User Details</h1>
+
+<ul>
+  {% if profile.image %}
+  <li>
+    <label for="id_image" class="image-label">
+      <img
+        src="{{ profile.image.url }}"
+        alt="custom-profile-pic"
+        id="profile-image"
+      />
+    </label>
+    <input type="file" name="image" id="id_image" class="hidden-input" />
+  </li>
+  {% else %}
+  <li>
+    <label for="id_image" class="image-label">
+      <img
+        src="{% static 'images/no_profile.jpg' %}"
+        alt="default-profile-pic"
+        id="profile-image"
+      />
+    </label>
+    <input type="file" name="image" id="id_image" class="hidden-input" />
+  </li>
+  {% endif %}
+  <li>Username: {{ user.username }}</li>
+  <li>Email: {{ user.email }}</li>
+  <nav class="navbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'custom_songs_list' %}">Your Songs</a>
+        <a href="{% url 'user_update' profile.pk %}">Update Account</a>
+        <a class="nav-link" href="{% url 'user_delete' user.pk %}"
+          >Delete Account</a
+        >
+      </li>
+    </ul>
+  </nav>
+</ul>
+
+{% endblock content %}

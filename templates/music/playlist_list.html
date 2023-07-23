@@ -1,0 +1,36 @@
+﻿{% extends 'base/base.html' %}
+
+
+{% block content %}
+
+<div class='wrapper'>
+    <div>
+        <h3>Playlists</h3>
+        <ul>
+            {% for playlist in playlists %}
+            <li>
+                <a href="{% url 'playlist_details' playlist.pk %}">{{ playlist.pk }} - {{ playlist.name }}
+                <a href="{% url 'playlist_update' playlist.pk %}" class='delete-btn'>Update</a>
+                <a href="{% url 'playlist_delete' playlist.pk %}" class='delete-btn'>Delete</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+{% else %}
+    <a>&lt;</a>
+{% endif %}
+
+{{ page_obj.number }} / {{ paginator.num_pages }}
+
+{% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+{% else %}
+    <a>&gt;</a>
+{% endif %}
+
+{% endblock content %}
+    

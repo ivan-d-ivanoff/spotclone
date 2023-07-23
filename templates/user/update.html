@@ -1,0 +1,10 @@
+﻿{% extends "base/base.html" %}
+
+{% block content %}
+  <h1>Edit Your Profile</h1>
+  <form action="{% url 'user_update' profile.pk %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }} 
+    <button>Update</button>
+  </form>
+{% endblock %}
