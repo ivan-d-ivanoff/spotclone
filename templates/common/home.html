@@ -1,40 +1,148 @@
-{% extends 'base/base.html' %} 
+{% extends 'base/base.html' %} {% load static %} {% block content %}
 
-{% block content %}
+<style>
+  a {
+    text-decoration: none !important;
+  }
+  .card:hover {
+    background-color: red !important;
+  }
+  .card-body:hover {
+    background-color: red !important;
+  }
+</style>
 
-{% comment %} TODO: Make the playlist and song other parts and be 50% width
-                    on the left will be the pre made playlists
-{% endcomment %}
-<main class="bg-dark m-2 p-5 bg-white text-light" style="border-radius:12px">
-    <div class="container-fluid m-2 bg-dark">
-        <h1>Home Page</h1>
-        <h4>Welcome {{ user }}</h4>
-    </div>
+<main class="text-light">
+  <div class="container-fluid m-2">
+    <h1>Home Page</h1>
 
-    <br>
-    <br>
-    <br>
+    {% if user.is_authenticated %}
+    <h4>Welcome {{ user }}</h4>
+    {% endif %}
+  </div>
 
-    <div class="w-50 container-fluid m-2 bg-dark">
-        <h2>Your Playlists</h2>
+  <br />
+  <br />
+  <br />
+  <div class="container w-50 ms-2">
+    <h2 class="mb-3">Your Playlists</h2>
+    {% if user.is_authenticated %} {% if playlists %}
+    <ul class="list-unstyled row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+      {% for playlist in playlists %}
+      <li class="col">
+        <a href="{% url 'playlist_details' playlist.pk %}">
+          <div class="card border-0 p-2 bg-dark">
+            {% if playlist.image %}
+            <img
+              class="card-img-top"
+              src="{{ playlist.image.url }}"
+              alt="playlists-image"
+            />
+            {% else %}
+            <img
+              class="card-img-top"
+              src="{% static 'images/default_playlist.PNG' %}"
+              alt="playlists-image"
+            />
+            {% endif %}
+            <div class="card-body bg-dark p-0 pt-3">
+              <h4
+                class="card-title text-light"
+                style="
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  max-width: 150px;
+                "
+              >
+                {{ playlist.name }}
+              </h4>
+            </div>
+          </div>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    <a class="fw-bold" href="{% url 'playlist_list' %}">Show all</a>
+    {% else %}
+    <h5>
+      You still haven't created a playlist
+      <a href="{% url 'playlist_create' %}">Create a Playlist</a>
+    </h5>
+    {% endif %} {% else %}
+    <h5>
+      Here you will see all your playlists. Just
+      <a href="{% url 'user_login' %}">create an account</a>
+    </h5>
+    {% endif %}
+  </div>
 
-    {% for playlist in playlists %}
-    <p>{{ playlist }}</p>
-    {% endfor %}
-        <a href="{% url 'playlist_list' %}">Show all</a>
-    </div>
+  <br />
+  <br />
+  <br />
 
-    <br>
-    <br>
-    <br>
-
-    <div class="w-50 container-fluid m-2 bg-dark">
-        <h2>Your songs</h2>
-
-    {% for song in songs %}
-        <p>{{ song }}</p>
-    {% endfor %}
-    <a href="{% url 'custom_songs_list' %}">Show all</a>
-    </div>
+  <div class="container w-50 ms-2">
+    <h2 class="mb-3">Your Songs</h2>
+    {% if user.is_authenticated %} {% if songs %}
+    <ul class="list-unstyled row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+      {% for song in songs %}
+      <li class="col">
+        <a href="{% url 'song_details' song.pk %}">
+          <div class="card border-0 p-2 bg-dark">
+            {% if song.image %}
+            <img
+              class="card-img-top"
+              src="{{ song.image.url }}"
+              alt="song-image"
+            />
+            {% else %} <img class="card-img-top" # TODO: add a default song
+            image src="{% static 'images/default_playlist.PNG' %}"
+            alt="song-image" /> {% endif %}
+            <div class="card-body bg-dark p-0 pt-3">
+              <h4
+                class="card-title text-light"
+                style="
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  max-width: 150px;
+                "
+              >
+                {{ song.title }}
+              </h4>
+              <p
+                class="card-title text-light"
+                style="
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  max-width: 150px;
+                "
+              >
+                {{ song.artist }}
+              </p>
+            </div>
+          </div>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    <a class="fw-bold" href="{% url 'custom_songs_list' %}">Show all</a>
+    {% else %}
+    <h5>
+      You still haven't created a playlist
+      <a href="{% url 'song_add' %}">Add a Song</a>
+    </h5>
+    {% endif %} {% else %}
+    <h5>
+      Here you will see all your songs. Just
+      <a href="{% url 'user_login' %}">create an account</a>
+    </h5>
+    {% endif %}
+  </div>
 </main>
+
+<br />
+<br />
+<br />
 {% endblock %}

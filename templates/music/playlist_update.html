@@ -1,10 +1,26 @@
 ﻿{% extends 'base/base.html' %} 
 
-{% block content %}
-<form action="{% url 'playlist_update' playlist.pk %}" method="POST">
-  {% csrf_token %} 
-  {{ form.as_p }}
-  <button>Update playlist</button>
-</form>
+{% load static %}
+
+
+{% block content %}  
+<style>
+  * {
+    color: #f8f9fa;
+  }
+</style>
+<div class="form-group m-5">
+  <h1>Update your</h1>
+
+  <br>
+  <br>
+  <br>
+  
+  <form action="{% url 'playlist_update' playlist.pk %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-primary">Update playlist</button>
+  </form>
+</div>
 
 {% endblock content %}

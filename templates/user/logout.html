@@ -2,10 +2,16 @@
 {% load static %}
 
 {% block content %}
-<h1>Are you sure you want to log out?</h1>
-<form action="{% url 'user_logout' %}" method='POST'>
+
+<style>
+    * {
+        color: #f8f9fa;
+    }
+</style>
+<h1 class="m-2">Are you sure you want to log out?</h1>
+<form class="ms-2" action="{% url 'user_logout' %}" method='POST'>
     {% csrf_token %}
     {{ form.as_p }}
-    <button>Logout</button>
+    <button class="btn btn-primary">Logout</button>
 </form>
 {% endblock %}

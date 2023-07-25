@@ -25,3 +25,6 @@ urlpatterns = [
     path('user/', include('spotclone_project.user.urls')),
     path('music/', include('spotclone_project.music.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+admin.site.site_header = "Spotclone Administration"
+admin.site.site_title = "Spotclone"

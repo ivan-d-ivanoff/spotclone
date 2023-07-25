@@ -3,29 +3,66 @@
 
 {% block content %}
 
-<h1>Your custom songs</h1>
 
-<ul>
-    {% for song in object_list %}
-    <li>
-        <a href="{% url 'song_details' song.pk %}">{{ song.title }} - {{ song.artist }}</a>
-        <a href="{% url 'song_delete' song.pk %}">Delete</a>
-    </li>
-    {% endfor %}
-</ul>
+<style>
+    a {
+        text-decoration: none;
+    }
+</style>
+<section class="m-2 text-light">
+    <h1 class="mb-5" style="padding-left:12px">Your songs</h1>
 
-{% if page_obj.has_previous %}
-    <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
-{% else %}
-    <a>&lt;</a>
-{% endif %}
+    <div class="container-fluid">
+        <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-4 text-light">
 
-{{ page_obj.number }} / {{ paginator.num_pages }}
+          {% for song in object_list %}
+            <div class="col">
+                <a href="{% url 'song_details' song.pk %}">
+                    {% if song.image %}
+                    <img src="path-to-song1-thumbnail.jpg" class="card-img-top " alt="song-image">
+                    {% else %}
+                     <img src="{% static 'images/default_playlist.PNG' %}" class="card-img-top" alt="default-song-image">
+                    {% endif %}
+                    <div class="card-body p-0 ps-2">
+                        <h4 class="m-0 text-light"
+                        style="
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        max-width: 150px;
+                      ">{{ song.title }}
+                        </h4>
+                            <h6 class="m-0 text-light me-2"
+                            style="
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            max-width: 150px;
+                        ">{{ song.artist }}
+                            </h6>
+                            <a href="{% url 'song_delete' song.pk %}">Delete</a>
+                    </div>
+                </a>
+            </div>
+          {% endfor %}
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+    {% else %}
+        <a>&lt;</a>
+    {% endif %}
 
-{% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
-{% else %}
-    <a>&gt;</a>
-{% endif %}
-    
+    {{ page_obj.number }} / {{ paginator.num_pages }}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+    {% else %}
+        <a>&gt;</a>
+    {% endif %}
+</section>
 {% endblock content %}

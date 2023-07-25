@@ -1,8 +1,9 @@
+from typing import Any, Dict
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views import generic as views
 from .models import Playlist, UserCreatedSong
-from .forms import DeleteSongForm
+from .forms import AddSongsToPlaylistForm, DeleteSongForm, PlaylistForm, SongForm
 from spotclone_project.user.models import Profile
 from django.contrib.auth import mixins as auth_mixins
 
@@ -13,16 +14,27 @@ class PlaylistListView(auth_mixins.LoginRequiredMixin, views.ListView):
     context_object_name = 'playlists'
     paginate_by = 12
     
+    song_to_delete = UserCreatedSong.objects.filter(pk=1).delete()
+    song_to_delete = UserCreatedSong.objects.filter(pk=2).delete()
+    
 class PlaylistDetailView(auth_mixins.LoginRequiredMixin, views.DetailView):
     pass
     model = Playlist
     template_name = 'music/playlist_details.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        playlist = context['playlist']
+        songs = playlist.songs.all()
+
+        context['songs'] = songs
+        return context
 
 class PlaylistCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
     model = Playlist
-    fields = ['image', 'name', 'description']
     template_name = 'music/playlist_create.html'
     success_url = reverse_lazy('user_details')
+    form_class = PlaylistForm
     
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -30,7 +42,7 @@ class PlaylistCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
 
 class PlaylistUpdateView(auth_mixins.LoginRequiredMixin, views.UpdateView):
     model = Playlist
-    fields = ['image', 'name', 'description']
+    form_class = PlaylistForm
     template_name = 'music/playlist_update.html'
     success_url = reverse_lazy('user_details')
 
@@ -39,13 +51,13 @@ class PlaylistDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     context_object_name = 'playlist'
     template_name = "music/playlist_delete.html"
     success_url = reverse_lazy('user_details')
-
-
+    
+    
 
 class SongCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
     model = UserCreatedSong
-    fields = ['image', 'title', 'artist', 'audio_file']
     template_name = 'music/song_add.html'
+    form_class = SongForm
     success_url = reverse_lazy('user_details')
     
     def form_valid(self, form):
@@ -54,7 +66,7 @@ class SongCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
 
 class SongUpdateView(auth_mixins.LoginRequiredMixin, views.UpdateView):
     model = UserCreatedSong
-    fields = ['image', 'title', 'artist', 'audio_file']
+    form_class = SongForm
     template_name = 'music/song_update.html'
     success_url = reverse_lazy('user_details')
     context_object_name = 'song'
@@ -73,8 +85,21 @@ class SongDetailsView(auth_mixins.LoginRequiredMixin, views.DetailView):
 class CustomSongsListView(auth_mixins.LoginRequiredMixin, views.ListView):
     template_name = 'music/songs_list.html'
     context_object_name = 'custom_songs'
-    paginate_by = 36
+    paginate_by = 16
     
     def get_queryset(self):
         user_pk = self.request.user.pk
         return UserCreatedSong.objects.filter(user_id=user_pk)
+    
+
+class AddSongToPlaylist(views.UpdateView):
+    model = Playlist
+    template_name = "music/add_songs_to_playlist.html"
+    success_url = reverse_lazy("home")
+    form_class = AddSongsToPlaylistForm
+    
+    def form_valid(self, form):
+        playlist = form.save(commit=False)
+        form_songs = form.cleaned_data['songs']
+        playlist.songs.add(*form_songs)
+        return super().form_valid(form)

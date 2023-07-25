@@ -14,14 +14,21 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% load bootstrap5 %} 
     {% bootstrap_css %} 
+    <style>
+      main {
+        min-height: calc(100vh - 145px) !important;
+      }
+    </style>
   </head>
 
 
-  <body class="bg-black p-1">
+  <body class="bg-black">
     {% include 'base/header.html' %} 
 
-    {% block content %} 
-    {% endblock content %}
+    <main>
+      {% block content %} 
+      {% endblock content %}
+    </main>
 
     {% include 'base/footer.html' %}
   </body>

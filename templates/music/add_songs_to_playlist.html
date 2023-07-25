@@ -1,0 +1,12 @@
+﻿{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+<h1>Add Songs to "{{ object.name }}" Playlist</h1>
+<form action="{% url 'add_songs_to_playlist' object.pk %}" method="post" >
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Selected Songs</button>
+</form>
+{% endblock content %}
+    

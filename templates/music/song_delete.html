@@ -3,13 +3,22 @@
 
 {% block content %}
 
+<style>
+    * {
+        color: #f8f9fa;
+    }
+    a {
+        text-decoration: none;
+    }
+</style>
+
 <h2>Confirm deletion</h2>
 <h2>Song to delete: {{ song.title }} by {{ song.artist }}</h2>
     <p>Are you sure you want to delete this song?</p>
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <button>Confirm</button>
+        <button class="btn btn-primary">Confirm</button>
         <a href="{% url 'home' %}">Cancel</a>
     </form>
 

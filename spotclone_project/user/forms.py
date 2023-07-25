@@ -54,9 +54,13 @@ class UpdateProfileForm(forms.ModelForm):
         fields = ['image','username', 'email','date_of_birth']  # Add any other fields you want to display in the form
 
     # Set the widget for the date_of_birth field
-    widgets = {
-        'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
-    }
+        widgets = {
+            'image': forms.FileInput(attrs={'class': 'form-control bg-dark text-light w-50'}), 
+            'username': forms.TextInput(attrs={'class': 'form-control bg-dark text-light w-50'}), 
+            'email': forms.EmailInput(attrs={'class': 'form-control bg-dark text-light w-50'}), 
+            'date_of_birth': forms.DateInput(attrs={'class': 'form-control bg-dark text-light w-50'}),
+        }
+    
 class DeleteUserForm(forms.Form):
     confirm_delete = forms.BooleanField(
         label='Confirm Deletion',

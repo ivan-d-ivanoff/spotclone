@@ -3,13 +3,25 @@
 
 {% block content %}
 
-<h2>Confirm deletion</h2>
+<style>
+    * {
+        color: #f8f9fa;
+    }
+    a {
+        text-decoration: none;
+        color: #f8f9fa !important;
+    }
+</style>
+<h1>Confirm deletion</h2>
 <h2>User to delete: {{ user.username }}</h2>
-    <p>Are you sure you want to delete your account?</p>
+<br>
+<br>
+<br>
+    <h3>Are you sure you want to delete your account?</p>
     <form  action="{% url 'user_delete' user.pk %}" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <button>Confirm</button>
+        <button class="btn btn-primary">Confirm</button>
         <a href="{% url 'home' %}">Cancel</a>
     </form>
 
