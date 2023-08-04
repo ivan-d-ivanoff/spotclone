@@ -11,7 +11,7 @@
 <section class="m-2 text-light">
     <h1 class="mb-5" style="padding-left:12px">Your playlists</h1>
 
-    <div class="container-fluid">
+    <div class="container-fluid" style="margin-bottom:100px;">
         <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-4 text-light">
 
           {% for playlist in playlists %}
@@ -31,16 +31,14 @@
                         max-width: 150px;
                       ">{{ playlist.name }}
                         </h4>
+                        <a href="{% url 'playlist_update' playlist.pk %}">Edit</a>
+                        <a href="{% url 'playlist_delete' playlist.pk %}">Delete</a>
                     </div>
                 </a>
             </div>
           {% endfor %}              
         </div>
     </div>
-    <br>
-    <br>
-    <br>
-    <br>
     {% if page_obj.has_previous %}
         <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
     {% else %}

@@ -2,17 +2,24 @@
 {% load static %}
 
 {% block content %}
+<style>
+    * {
+      color: #f8f9fa;
+    }
+</style>
 
-<form action="{% url 'user_login' %}" method='POST'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <div>
-        <button>Login</button>
-        or
-        <a href="{% url 'user_register' %}">Register</a>
-
-        <a href="{% url 'reset_password' %}">Forgotten password</a>
-    </div>
-</form>
+<section class="form-group m-3">
+    <form action="{% url 'user_login' %}" method='POST'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div>
+            <button class="btn btn-primary">Login</button>
+            or
+            <a href="{% url 'user_register' %}">
+                <button class="btn btn-primary">Register</button>
+            </a>
+        </div>
+    </form>
+</section>
 
 {% endblock %}

@@ -33,8 +33,10 @@ class PlaylistDetailView(auth_mixins.LoginRequiredMixin, views.DetailView):
 class PlaylistCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
     model = Playlist
     template_name = 'music/playlist_create.html'
-    success_url = reverse_lazy('user_details')
     form_class = PlaylistForm
+    
+    def get_success_url(self):
+        return reverse_lazy('user_details', kwargs={'pk': self.request.user.pk})
     
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -44,13 +46,17 @@ class PlaylistUpdateView(auth_mixins.LoginRequiredMixin, views.UpdateView):
     model = Playlist
     form_class = PlaylistForm
     template_name = 'music/playlist_update.html'
-    success_url = reverse_lazy('user_details')
+    
+    def get_success_url(self):
+        return reverse_lazy('user_details', kwargs={'pk': self.request.user.pk})
 
 class PlaylistDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     model = Playlist
     context_object_name = 'playlist'
     template_name = "music/playlist_delete.html"
-    success_url = reverse_lazy('user_details')
+    
+    def get_success_url(self):
+        return reverse_lazy('user_details', kwargs={'pk': self.request.user.pk})
     
     
 
@@ -58,24 +64,30 @@ class SongCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
     model = UserCreatedSong
     template_name = 'music/song_add.html'
     form_class = SongForm
-    success_url = reverse_lazy('user_details')
     
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy('user_details', kwargs={'pk': self.request.user.pk})
 
 class SongUpdateView(auth_mixins.LoginRequiredMixin, views.UpdateView):
     model = UserCreatedSong
     form_class = SongForm
     template_name = 'music/song_update.html'
-    success_url = reverse_lazy('user_details')
     context_object_name = 'song'
+    
+    def get_success_url(self):
+        return reverse_lazy('user_details', kwargs={'pk': self.request.user.pk})
     
 class SongDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     model = UserCreatedSong
     context_object_name = 'song'
     template_name = "music/song_delete.html"
-    success_url = reverse_lazy('user_details')
+    
+    def get_success_url(self):
+        return reverse_lazy('user_details', kwargs={'pk': self.request.user.pk})
     
 class SongDetailsView(auth_mixins.LoginRequiredMixin, views.DetailView):
     model = UserCreatedSong

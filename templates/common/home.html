@@ -7,13 +7,10 @@
   .card:hover {
     background-color: red !important;
   }
-  .card-body:hover {
-    background-color: red !important;
-  }
 </style>
 
 <main class="text-light">
-  <div class="container-fluid m-2">
+  <div class="container-fluid m-2" style="margin-bottom:100px !important;">
     <h1>Home Page</h1>
 
     {% if user.is_authenticated %}
@@ -21,10 +18,7 @@
     {% endif %}
   </div>
 
-  <br />
-  <br />
-  <br />
-  <div class="container w-50 ms-2">
+  <div class="container w-50 ms-2" style="margin-bottom:100px !important;">
     <h2 class="mb-3">Your Playlists</h2>
     {% if user.is_authenticated %} {% if playlists %}
     <ul class="list-unstyled row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
@@ -46,7 +40,7 @@
             />
             {% endif %}
             <div class="card-body bg-dark p-0 pt-3">
-              <h4
+              <h6
                 class="card-title text-light"
                 style="
                   white-space: nowrap;
@@ -56,7 +50,7 @@
                 "
               >
                 {{ playlist.name }}
-              </h4>
+              </h6>
             </div>
           </div>
         </a>
@@ -72,16 +66,14 @@
     {% endif %} {% else %}
     <h5>
       Here you will see all your playlists. Just
-      <a href="{% url 'user_login' %}">create an account</a>
+      <a href="{% url 'user_login' %}">login</a>
+      or
+      <a href="{% url 'user_register' %}">create an account</a>
     </h5>
     {% endif %}
   </div>
 
-  <br />
-  <br />
-  <br />
-
-  <div class="container w-50 ms-2">
+  <div class="container w-50 ms-2" style="margin-bottom:100px !important;">
     <h2 class="mb-3">Your Songs</h2>
     {% if user.is_authenticated %} {% if songs %}
     <ul class="list-unstyled row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
@@ -95,11 +87,11 @@
               src="{{ song.image.url }}"
               alt="song-image"
             />
-            {% else %} <img class="card-img-top" # TODO: add a default song
+            {% else %} <img class="card-img-top"
             image src="{% static 'images/default_playlist.PNG' %}"
             alt="song-image" /> {% endif %}
             <div class="card-body bg-dark p-0 pt-3">
-              <h4
+              <h6
                 class="card-title text-light"
                 style="
                   white-space: nowrap;
@@ -109,7 +101,7 @@
                 "
               >
                 {{ song.title }}
-              </h4>
+              </h6>
               <p
                 class="card-title text-light"
                 style="
@@ -136,13 +128,17 @@
     {% endif %} {% else %}
     <h5>
       Here you will see all your songs. Just
-      <a href="{% url 'user_login' %}">create an account</a>
+      <a href="{% url 'user_login' %}">login</a>
+      or
+      <a href="{% url 'user_register' %}">create an account</a>
     </h5>
     {% endif %}
   </div>
-</main>
 
-<br />
-<br />
-<br />
+  
+  {% if search_results %}
+    
+  {% endif %}
+    
+</main>
 {% endblock %}

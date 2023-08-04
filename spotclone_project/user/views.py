@@ -9,13 +9,14 @@ from django.contrib.auth import forms as auth_forms
 from django.views import generic as views
 from django.urls import reverse_lazy
 from .models import Profile
-from .forms import RegisterForm, DeleteUserForm, AddImageForm, UpdateProfileForm
+from .forms import LoginForm, RegisterForm, DeleteUserForm, AddImageForm, UpdateProfileForm
 
 
 User = get_user_model()
 
 class LoginView(auth_views.LoginView):
     template_name = "user/login.html"
+    form_class = LoginForm
     # redirect after login. Set to urlpattern name
     next_page = reverse_lazy("home")
 
@@ -53,7 +54,7 @@ class ProfileView(auth_mixins.LoginRequiredMixin, views.TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        profile = Profile.objects.get(user=user)
+        profile = Profile.objects.filter(user=user).first()
         context["profile"] = profile
         context["form"] = AddImageForm()
         return context
@@ -62,14 +63,15 @@ class UserUpdateView(views.UpdateView):
     model = Profile
     form_class = UpdateProfileForm
     template_name = 'user/update.html'
-    success_url = reverse_lazy('user_details')
-
+    def get_success_url(self):
+        return reverse_lazy('user_details', kwargs={'pk': self.request.user.pk})
+    
+    def get_object(self, queryset=None):
+        # Return the Profile object based on the user's primary key
+        return self.request.user.profile
     
     def form_valid(self, form):
         profile = form.save()
-        
-        
-
         return super().form_valid(form)
     
 class DeleteView(views.DeleteView):
@@ -79,17 +81,8 @@ class DeleteView(views.DeleteView):
     template_name = "user/delete.html"
 
 
-class PasswordResetView(auth_views.PasswordResetView):
-    template_name = "user/password_reset.html"
-
-
-class PasswordResetDoneView(auth_views.PasswordResetDoneView):
-    template_name = "user/password_reset_done.html"
-
-
-class PasswordResetConfirmView(auth_views.PasswordResetConfirmView):
-    template_name = "user/password_reset_confirm.html"
-
-
-class PasswordResetCompleteView(auth_views.PasswordResetCompleteView):
-    template_name = "user/password_reset_confirm.html"
+class ChangePasswordView(auth_views.PasswordChangeView):
+    template_name='user/password_change.html'
+    
+    def get_success_url(self):
+        return reverse_lazy('user_details', kwargs={'pk': self.request.user.pk})

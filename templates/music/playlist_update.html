@@ -9,12 +9,8 @@
     color: #f8f9fa;
   }
 </style>
-<div class="form-group m-5">
-  <h1>Update your</h1>
-
-  <br>
-  <br>
-  <br>
+<div class="form-group m-3">
+  <h1 class="mb-5">Update your playlist</h1>
   
   <form action="{% url 'playlist_update' playlist.pk %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}

@@ -1,0 +1,26 @@
+﻿{% extends 'base/base.html' %} 
+
+{% block content %}
+
+<style>
+  * {
+    color: #f8f9fa;
+  }
+</style>
+{% comment %} 
+        #TODO: when opening the user, the data is of the currently logged in  
+{% endcomment %}
+<h1>Search Results:</h1>
+{% if search_results %}
+<ul>
+  {% for user in search_results %}
+  <a href="{% url 'user_details' user.pk %}">
+    <li>{{ user.username }}</li>
+  </a>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No results found.</p>
+{% endif %} 
+
+{% endblock %}

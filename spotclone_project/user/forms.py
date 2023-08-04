@@ -4,10 +4,20 @@ from django import forms
 from .models import Profile
 
 User = get_user_model()
+class LoginForm(auth_forms.AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['username'].widget.attrs.update({'class': 'form-control bg-dark text-light w-50'})
+        self.fields['password'].widget.attrs.update({'class': 'form-control bg-dark text-light w-50'})
 class RegisterForm(auth_forms.UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
     
     username = forms.CharField(
         label='Username',
+        widget=forms.TextInput(attrs={'class': 'form-control bg-dark text-light w-50',}),
         validators=[validators.MinLengthValidator(3),
                     validators.MaxLengthValidator(30)]
         )
@@ -16,13 +26,14 @@ class RegisterForm(auth_forms.UserCreationForm):
         label='Email address',
         widget=forms.EmailInput(attrs={'blank':False,
                                        'null':False,
+                                       'class': 'form-control bg-dark text-light w-50'
                                        })
     )
-    
     password1 = forms.CharField(
         label='Password',
         strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password',
+                                          'class': 'form-control bg-dark text-light w-50'}),
         validators=[validators.RegexValidator(
             regex=r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$',
             message="Password must be at least 8 characters long and contain both letters and numbers."
@@ -31,11 +42,9 @@ class RegisterForm(auth_forms.UserCreationForm):
     password2 = forms.CharField(
         label='Confirm Password',
         strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password',
+                                          'class': 'form-control bg-dark text-light w-50'}),
     )
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'password1', 'password2')
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -43,11 +52,7 @@ class RegisterForm(auth_forms.UserCreationForm):
         if commit:
             user.save()
         return user
-
-    widgets = {
-        'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
-    }
-    
+        
 class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = Profile

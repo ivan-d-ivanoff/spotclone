@@ -2,11 +2,21 @@
 {% load static %}
 
 {% block content %}
-<h1>Add Songs to "{{ object.name }}" Playlist</h1>
-<form action="{% url 'add_songs_to_playlist' object.pk %}" method="post" >
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Add Selected Songs</button>
-</form>
+<style>
+    * {
+      color: #f8f9fa;
+    }
+  </style>
+
+
+<div class="form-group m-3">
+    <h1 class="mb-5">Add Songs to "{{ object.name }}" Playlist</h1>
+    <form action="{% url 'add_songs_to_playlist' object.pk %}" method="post" >
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary">Add Selected Songs</button>
+    </form>
+</div>
+
 {% endblock content %}
     

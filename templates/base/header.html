@@ -18,33 +18,40 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav header-navbar">
           {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link text-light" href="{% url 'user_details' %}">Profile</a>
-          </li>
-          <li class="nav_item">
-            <a class="nav-link text-light" href="{% url 'user_logout' %}">Logout</a>
-          </li>
-          <li class="nav_item">
-            <a class="nav-link text-light" href="{% url 'custom_songs_list' %}">Your Songs</a>
-          </li>
-          <li class="nav_item">
-            <a class="nav-link text-light" href="{% url 'playlist_list' %}">Your Playlists</a>
-          </li>
-          <li class="nav_item">
-            <a class="nav-link text-light" href="{% url 'playlist_create' %}">Create a Playlist</a>
-          </li>
-          <li class="nav_item">
-            <a class="nav-link text-light" href="{% url 'song_add'%}">Add song</a>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link text-light" href="{% url 'user_details' user.pk %}">Profile</a>
+            </li>
+            <li class="nav_item">
+              <a class="nav-link text-light" href="{% url 'user_logout' %}">Logout</a>
+            </li>
+            <li class="nav_item">
+              <a class="nav-link text-light" href="{% url 'custom_songs_list' %}">Your Songs</a>
+            </li>
+            <li class="nav_item">
+              <a class="nav-link text-light" href="{% url 'playlist_list' %}">Your Playlists</a>
+            </li>
+            <li class="nav_item">
+              <a class="nav-link text-light" href="{% url 'playlist_create' %}">Create a Playlist</a>
+            </li>
+            <li class="nav_item">
+              <a class="nav-link text-light" href="{% url 'song_add'%}">Add song</a>
+            </li>
           {% else %}
-          <li class="nav_item">
-            <a class="nav-link text-light" href="{% url 'user_login' %}">Login</a>
-          </li>
-          <li class="nav_item">
-            <a class="nav-link text-light" href="{% url 'user_register' %}">Register</a>
-          </li>
+            <li class="nav_item">
+              <a class="nav-link text-light" href="{% url 'user_login' %}">Login</a>
+            </li>
+            <li class="nav_item">
+              <a class="nav-link text-light" href="{% url 'user_register' %}">Register</a>
+            </li>
           {% endif %}
         </ul>
+        
+        {% if user.is_authenticated %}
+        <form class="d-flex ms-auto" method="get" action="{% url 'search_results' %}">
+          <input class="form-control me-2" type="text" name="search" placeholder="Search users...">
+          <button class="btn btn-outline-light">Search</button>
+        </form>     
+        {% endif %}
       </div>
     </div>
   </nav>

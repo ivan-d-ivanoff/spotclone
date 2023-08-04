@@ -159,8 +159,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# TODO: Configure LOGIN_URL, LOGIN_REDIRECT_URL and LOGOUT_REDIRECT_URL
-
 LOGIN_URL = reverse_lazy('user_login')
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

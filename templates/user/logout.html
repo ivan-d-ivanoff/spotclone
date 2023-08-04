@@ -1,17 +1,21 @@
-{% extends 'base/base.html' %}
-{% load static %}
+{% extends 'base/base.html' %} 
 
+{% load static %} 
 {% block content %}
 
 <style>
-    * {
-        color: #f8f9fa;
-    }
+  * {
+    color: #f8f9fa;
+  }
 </style>
-<h1 class="m-2">Are you sure you want to log out?</h1>
-<form class="ms-2" action="{% url 'user_logout' %}" method='POST'>
-    {% csrf_token %}
+
+<section class="m-3">
+  <h1>Are you sure you want to log out?</h1>
+  <form action="{% url 'user_logout' %}" method="POST">
+    {% csrf_token %} 
     {{ form.as_p }}
     <button class="btn btn-primary">Logout</button>
-</form>
+  </form>
+</section>
+
 {% endblock %}

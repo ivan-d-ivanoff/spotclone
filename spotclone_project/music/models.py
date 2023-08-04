@@ -34,7 +34,6 @@ class UserCreatedSong(models.Model):
                              on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     artist = models.CharField(max_length=100)
-    # TODO: Remove the blank=True null=True
     audio_file = models.FileField(upload_to=user_directory_path, 
                                   blank=True, 
                                   null=True)

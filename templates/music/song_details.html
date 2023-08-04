@@ -8,13 +8,14 @@
     }
 </style>
 
-<section class="container-fluid m-2 text-light">
+<section class="container-fluid m-3 text-light">
     
     <h1>{{ song.title }}</h1>
 
     <div class="d-flex gap-3">
         <h3>by {{ song.artist }}</h3>
         <a class="btn btn-primary" href="{% url 'song_update' song.pk  %}">Update</a>
+        <a class="btn btn-primary" href="{% url 'song_delete' song.pk %}">Delete</a>
     </div>
 
     <audio class="w-100 mt-5" controls>

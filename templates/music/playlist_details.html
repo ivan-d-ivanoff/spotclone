@@ -24,11 +24,16 @@
                       <h2 class="card-title">{{ playlist.name }}</h2>
                       <h5 class="card-text">{{ playlist.description }}</h5>
                     </div>
-                    <div class="mt-auto">
-                      <button class="btn btn-primary border-0 rounded">Play</button>
-                      <a class="nav-link ps-0" href="{% url 'playlist_update' playlist.pk %}">Edit your playlist</a>
-                      <a class="nav-link ps-0" href="{% url 'add_songs_to_playlist' playlist.pk %}">Add songs to the playlist</a>
-                      <a class="nav-link ps-0" href="{% url 'playlist_delete' playlist.pk %}">Delete your playlist</a>
+                    <div class="mt-auto d-flex gap-3">
+                      <a href="{% url 'add_songs_to_playlist' playlist.pk %}">
+                        <button class="btn btn-primary border-0 rounded">Add songs</button>
+                      </a>
+                      <a href="{% url 'playlist_update' playlist.pk %}">
+                        <button class="btn btn-primary border-0 rounded">Edit</button>
+                      </a>
+                      <a href="{% url 'playlist_delete' playlist.pk %}">
+                        <button class="btn btn-primary border-0 rounded">Delete</button>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -40,7 +45,8 @@
       <div class="container-fluid">
         <div class="row">
             {% for song in songs  %}
-          <div class="col-md-2">
+          <div class=""
+          style="width:300px">
             <div class="card pt-3 d-flex align-items-center bg-dark text-light">
               <!-- Image -->
               <a class="text-light" href="{% url 'song_details' song.pk %}"
@@ -51,9 +57,7 @@
                 <img src="{% static 'images/default_playlist.PNG'%}" alt="default-playlist-image">
               {% endif %}
               <div class="card-body">
-                <!-- Song Title -->
                 <h5 class="card-title">Song Title</h5>
-                <!-- Song Artist -->
                 <p class="card-text">Song Artist</p>
               </div>
               </a>
