@@ -13,9 +13,7 @@ class PlaylistListView(auth_mixins.LoginRequiredMixin, views.ListView):
     
     context_object_name = 'playlists'
     paginate_by = 12
-    
-    song_to_delete = UserCreatedSong.objects.filter(pk=1).delete()
-    song_to_delete = UserCreatedSong.objects.filter(pk=2).delete()
+
     
 class PlaylistDetailView(auth_mixins.LoginRequiredMixin, views.DetailView):
     pass

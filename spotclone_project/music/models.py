@@ -6,16 +6,21 @@ from django.utils.text import slugify
 
 
 class Playlist(models.Model):
+    
     user = models.ForeignKey(User, 
-                             on_delete=models.CASCADE)
+                             on_delete=models.CASCADE) 
+   
     image = models.ImageField(blank=True, 
                               null=True)
     name = models.CharField(max_length=40)
     description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
     songs = models.ManyToManyField("UserCreatedSong", 
                                    related_name="playlists", 
                                    blank=True)
+                                                              
+   
 
     def __str__(self):
         return self.name
@@ -36,7 +41,10 @@ class UserCreatedSong(models.Model):
     artist = models.CharField(max_length=100)
     audio_file = models.FileField(upload_to=user_directory_path, 
                                   blank=True, 
-                                  null=True)
+                                  null=True)  
+   
+   
 
     def __str__(self):
-        return self.title
+        return self.title 
+ 
