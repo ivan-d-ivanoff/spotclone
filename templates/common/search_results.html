@@ -6,15 +6,16 @@
   * {
     color: #f8f9fa;
   }
+  ul {
+    list-style: none;
+  }
 </style>
-{% comment %} 
-        #TODO: when opening the user, the data is of the currently logged in  
-{% endcomment %}
+
 <h1>Search Results:</h1>
 {% if search_results %}
 <ul>
   {% for user in search_results %}
-  <a href="{% url 'user_details' user.pk %}">
+  <a id="redirect-btn" href="{% url 'other_user_details' user.pk %}">
     <li>{{ user.username }}</li>
   </a>
   {% endfor %}
@@ -22,5 +23,16 @@
 {% else %}
 <p>No results found.</p>
 {% endif %} 
+
+<script>
+  document.getElementById("redirect-btn").addEventListener("click", function(event) {
+    event.preventDefault();
+
+    var username = this.innerText.trim();
+
+    window.location.href = "{% url 'other_user_details' user.pk %}?username=" + encodeURIComponent(username);
+
+  });
+</script>
 
 {% endblock %}

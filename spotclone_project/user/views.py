@@ -6,11 +6,12 @@ from django.contrib.auth import (
     get_user_model,
 )
 from django.contrib.auth import forms as auth_forms
+from django.shortcuts import get_object_or_404
 from django.views import generic as views
 from django.urls import reverse_lazy
 from .models import Profile
 from .forms import LoginForm, RegisterForm, DeleteUserForm, AddImageForm, UpdateProfileForm
-
+from spotclone_project.music.models import UserCreatedSong, Playlist
 
 User = get_user_model()
 
@@ -59,7 +60,24 @@ class ProfileView(auth_mixins.LoginRequiredMixin, views.TemplateView):
         context["form"] = AddImageForm()
         return context
 
-class UserUpdateView(views.UpdateView):
+class OtherProfileView(auth_mixins.LoginRequiredMixin, views.DetailView):
+    template_name = "user/other_user.html"
+    model = User
+
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        username = self.request.GET.get("username")
+        user = User.objects.filter(username=username).first()
+        profile = Profile.objects.filter(user=user).first()
+        context["profile"] = profile
+        context["user"] = user
+        context["songs"] = UserCreatedSong.objects.filter(user=user).order_by('?')[:4]
+        context["playlists"] = Playlist.objects.filter(user=user).order_by('?')[:4]
+        return context
+    
+class UserUpdateView(auth_mixins.LoginRequiredMixin, views.UpdateView):
     model = Profile
     form_class = UpdateProfileForm
     template_name = 'user/update.html'
@@ -81,7 +99,7 @@ class DeleteView(views.DeleteView):
     template_name = "user/delete.html"
 
 
-class ChangePasswordView(auth_views.PasswordChangeView):
+class ChangePasswordView(auth_mixins.LoginRequiredMixin, auth_views.PasswordChangeView):
     template_name='user/password_change.html'
     
     def get_success_url(self):

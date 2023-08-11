@@ -104,7 +104,7 @@ class CustomSongsListView(auth_mixins.LoginRequiredMixin, views.ListView):
         return UserCreatedSong.objects.filter(user_id=user_pk)
     
 
-class AddSongToPlaylist(views.UpdateView):
+class AddSongToPlaylist(auth_mixins.LoginRequiredMixin, views.UpdateView):
     model = Playlist
     template_name = "music/add_songs_to_playlist.html"
     success_url = reverse_lazy("home")

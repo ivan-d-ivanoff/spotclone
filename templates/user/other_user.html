@@ -1,1 +1,167 @@
-﻿
+﻿{% extends 'base/base.html' %}
+
+{% load static %}
+{% block content %}
+
+<style>
+  * {
+    color: #f8f9fa
+  }
+  img {
+    max-width: 250px;
+    margin-bottom: 12px;
+  }
+  a {
+    text-decoration: none;
+  }
+  li {
+    list-style-type: none;
+  }
+
+</style>
+<section class="m-3">
+  <h1 class="mb-5">User Details</h1>
+  {% if profile.image %}
+  <div>
+    <label for="id_image" class="image-label">
+      <img
+        src="{{ profile.image.url }}"
+        alt="custom-profile-pic"
+        id="profile-image"
+      />
+    </label>
+  </div>
+  {% else %}
+  <div>
+    <label for="id_image" class="image-label">
+      <img
+        src="{% static 'images/no_profile.jpg' %}"
+        alt="default-profile-pic"
+        id="profile-image"
+      />
+    </label>
+  </div>
+  {% endif %}
+  <h5>Username: {{ user.username }}</h5>
+
+  
+  {% if profile.email %}
+    <h5>Email: {{ user.email }}</h5>
+  {% else %}
+    <h5>Email: not set</h5>
+  {% endif %}
+  
+  {% if profile.date_of_birth %}
+    <h5>Date of birth: {{ profile.date_of_birth }}</h5>
+  {% else %}
+    <h5>Date of birth: not set</h5>
+  {% endif %}
+
+  <br>
+  <br>
+  <br>
+
+  
+  <div class="container w-50 ms-2" style="margin-bottom:100px !important;">
+    <h2 class="mb-3">Songs</h2>
+      {% if songs %}
+        <ul class="list-unstyled row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+          {% for song in songs %}
+          <li class="col">
+              <div class="card border-0 p-2 bg-dark">
+                {% if song.image %}
+                  <img
+                    class="card-img-top"
+                    src="{{ song.image.url }}"
+                    alt="song-image"
+                  />
+                {% else %} 
+                  <img class="card-img-top"
+                  image src="{% static 'images/default_playlist.PNG' %}"
+                  alt="song-image" /> {% endif %}
+                  <div class="card-body bg-dark p-0 pt-3">
+                    <h6
+                      class="card-title text-light"
+                      style="
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        max-width: 150px;
+                      "
+                    >
+                      {{ song.title }}
+                    </h6>
+                    <p
+                      class="card-title text-light"
+                      style="
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        max-width: 150px;
+                      "
+                    >
+                      {{ song.artist }}
+                    </p>
+                  </div>
+              </div>
+          </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <h5>
+          This user has no songs
+        </h5>
+      {% endif %} 
+  </div>
+
+  <div class="container w-50 ms-2" style="margin-bottom:100px !important;">
+    <h2 class="mb-3">Your Playlists</h2>
+    {% if playlists %}
+      <ul class="list-unstyled row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        {% for playlist in playlists %}
+        <li class="col">
+            <div class="card border-0 p-2 bg-dark">
+            {% if playlist.image %}
+                <img
+                class="card-img-top"
+                src="{{ playlist.image.url }}"
+                alt="playlists-image"
+                />
+            {% else %}
+                <img
+                class="card-img-top"
+                src="{% static 'images/default_playlist.PNG' %}"
+                alt="playlists-image"
+                />
+            {% endif %}
+            <div class="card-body bg-dark p-0 pt-3">
+                <h6
+                class="card-title text-light"
+                style="
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-width: 150px;
+                "
+                >
+                {{ playlist.name }}
+                </h6>
+            </div>
+            </div>
+        </li>
+        {% endfor %}
+        </ul>
+      {% else %}
+      <h5>
+        This user has no playlists
+      </h5>
+    {% endif %} 
+  </div>
+</section>
+
+<br>
+<br>
+<br>
+
+{% endblock content %}
+    

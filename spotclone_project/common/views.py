@@ -2,6 +2,7 @@ from typing import Any
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.views import generic as views
+from django.contrib.auth import mixins as auth_mixins
 from spotclone_project.music.models import Playlist, UserCreatedSong
 from django.db.models import Q
 from django.contrib.auth import get_user_model
@@ -22,7 +23,7 @@ class HomePageView(views.TemplateView):
     
     template_name = 'common/home.html'
     
-class SearchResultView(views.ListView):
+class SearchResultView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = User
     template_name = 'common/search_results.html'
     context_object_name = 'search_results'
